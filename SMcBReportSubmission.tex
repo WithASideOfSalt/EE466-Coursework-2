@@ -1,0 +1,74 @@
+\documentclass[a4paper, 12pt, titlepage]{report}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{appendix}
+\usepackage{chngcntr}
+\usepackage{hyperref}
+\usepackage{svg}
+\usepackage[left=20mm,right=20mm,top=15mm,bottom=15mm]{geometry}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{references.bib}
+
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\counterwithout{equation}{chapter}
+
+\begin{document}
+\title{EE466: Power Electronics, Machines and Applications Coursework 2}
+\author{Scott McBride}
+\date{\today}
+\maketitle
+\tableofcontents
+\chapter{Introduction}
+This coursework submission shows the worked solutions for part 2 of the coursework assessment. Each question within this corresponds to the relevant question from the coursework specification. Where necessary, additional context is provided to clarify any assumptions within the design processes along with any relevant information provided within the brief.
+
+All relevant files for this submission are contained within the GitHub Repository at this\href{https://github.com/WithASideOfSalt/EE466-Coursework-2}{link}
+
+\chapter{Question 1}
+\section{Context}
+This question looks at the Thermal energy transfer between 2 heat sources contained within the same system. Contained within Table~\ref{tab:question1} are the relevant parameters for the system, those being the IGBT, Diode, heatsink and ambient temperature provided by~\cite{EE466CourseworkPart2}
+
+\begin{table}[h]
+    \centering
+    \caption{Parameters for Question 1}
+    \label{tab:question1}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Component} & \textbf{Parameter} & \textbf{Value} \\
+        \hline
+        & Power Dissipation W\(_{IGBT}\) & 12 W \\
+        IGBT& Junction to case thermal resistance R\(_{\theta j c}\)& \(0.6 ^\circ C/W\)\\
+        &Case to heatsink thermal resistance R\(_{\theta c h s}\)& \(1.4 ^\circ C/W\)\\
+        \hline
+        &Power Dissipation W\(_{Diode}\) & 7 W\\
+        Diode & Junction to case thermal resistance R\(_{\theta j c}\)& \(0.9^\circ C/W\)\\
+        &Case to heatsink thermal resistance R\(_{\theta c h s}\)& \(1.5 ^\circ C/W\)\\
+        \hline
+        &Heatsink to ambient thermal resistance R\(_{\theta h s a}\)& \(3.2 ^\circ C/W\) \\
+        Heatsink& Thermal capacitance \(C_{\theta hs}\)& 280 \(J/^\circ C\)\\
+        &Ambient Temperature & 40 $^\circ$C \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{1a}
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{./Images/Q1Ai.png}
+    \caption{Thermal Equivalent Circuit for Question 1a}
+    \label{fig:question1a}
+\end{figure}
+\section{1b}
+\chapter{Question 2}
+\section{Context}
+\section{2a}
+\section{2b}
+\section{2c}
+\chapter{Question 3}
+\section{Context}
+\section{3a}
+\section{3b}
+\section{3c}
+\printbibliography
+\end{document}
