@@ -56,14 +56,105 @@ This question looks at the Thermal energy transfer between 2 heat sources contai
 \end{table}
 
 \section{1a}
-For this question a thermal circuit was to be sketched to represent the system. The thermal circuit is shown in Figure~\ref{fig:question1a}.
+i) For this question a thermal circuit was to be sketched to represent the system. The thermal circuit is shown in Figure~\ref{fig:question1a}.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.25\textwidth]{./Images/Q1Ai.png}
+    \includegraphics[width=0.4\textwidth]{./Images/Q1Ai.png}
     \caption{Thermal Equivalent Circuit for Question 1ai}
     \label{fig:question1a}
 \end{figure}
+\\
+This thermal circuit shows the IGBT and Diode as two separate heat sources with differing paths to ambient. The relevant thermal resistances are shown along with the thermal capacitance of the heatsink. The ambient temperature is also shown as a reference point for the system.
+\vspace{0.5cm}
+\\ii) For this question, the steady state temperature for both the diode and IGBT junctions were to be calculated. To begin the temperature for the heatsink was calculated shown in Equation~\ref{eq:heatsink_temp}.
+\begin{equation}
+    \begin{split}
+            T_{\mathrm{hs}} &= T_{\mathrm{ambient}} + (W_{\mathrm{IGBT}} + W_{\mathrm{Diode}}) \cdot R_{\theta hsa} \\
+        &= 40 + (12 + 7) \cdot 3.2 = 100.8\,^\circ\mathrm{C}
+    \label{eq:heatsink_temp}
+    \end{split}
+\end{equation}
+
+With the general temperature of the heatsink calculated, the junction temperatures for both the IGBT and Diode can be calculated using the relevant thermal resistances. The junction temperature for the IGBT is shown in Equation~\ref{eq:igbt_temp}.
+\begin{equation}
+    \begin{split}
+        T_{\mathrm{IGBT}} &= T_{\mathrm{hs}} + W_{\mathrm{IGBT}} \cdot (R_{\theta jc} + R_{\theta chs}) \\
+        &= 100.8 + 12 \cdot (0.6 + 1.4) = 124.8\,^\circ\mathrm{C}
+    \label{eq:igbt_temp}
+    \end{split}
+\end{equation}   
+
+The junction temperature for the Diode is shown in Equation~\ref{eq:diode_temp}.
+\begin{equation}
+    \begin{split}
+        T_{\mathrm{Diode}} &= T_{\mathrm{hs}} + W_{\mathrm{Diode}} \cdot (R_{\theta jc} + R_{\theta chs}) \\
+        &= 100.8 + 7 \cdot (0.9 + 1.5) = 118.8\,^\circ\mathrm{C}
+    \label{eq:diode_temp}
+    \end{split}
+\end{equation}
+
+\vspace{0.5cm}
+iii) This question is looking at finding the heatsinks temperature response after 3 minutes after de-energisation while running in a thermal steady-state.
+
+To find the temperature response of the heatsink, a thermal transient analysis is required. Shown below in Equation~\ref{eq:heatsink_temp_response} is the relevant equation for the transient response of the heatsink.
+\begin{equation}
+    T_{\mathrm{hs}}(t) = T_{\mathrm{amb}} + (T_{\mathrm{initial}} - T_{\mathrm{amb}}) \cdot e^{-\frac{t}{R_{\theta hsa} \cdot C_{\theta hs}}}
+    \label{eq:heatsink_temp_response}
+\end{equation}
+
+This equation shows the temperature response of the heatsink as a function of time, where \(T_{\mathrm{initial}}\) is the initial temperature of the heatsink at the moment of de-energisation. Plugging in the relevant values into the equation, the temperature response of the heatsink after 3 minutes can be calculated as shown in Equation~\ref{eq:heatsink_temp_response_calculation}.
+\begin{equation}
+    \begin{split}
+        T_{\mathrm{hs}}(180) &= 40 + (100.8 - 40) \cdot e^{-\frac{180}{3.2 \cdot 280}} \\
+        &\approx 40 + 60.8 \cdot e^{-0.201} \\
+        &\approx 40 + 60.8 \cdot 0.818 \\
+        &\approx 40 + 49.7 = 89.7\,^\circ\mathrm{C}
+    \label{eq:heatsink_temp_response_calculation}
+    \end{split}
+\end{equation}
+
+For the heatsink temperature response after 3 minutes, the temperature is approximately \(89.7\,^\circ\mathrm{C}\).
+
 \section{1b}
+2 methods of finding switching losses are named within the brief, thermal superposition and double-pulse testing. For this question, each technique is described with the relevant advantages and disadvantages and relates them back to the context of a designed buck converter.
+
+Thermal superposition is the thermal equivalent of superposition in electrical circuits, where the total thermal response of a system is the sum of the individual responses of each heat source. In the context of power electronics, thermal superposition can be used to separate the switching losses of a device from its conduction losses, allowing for a accurate measurement of the switching losses.
+
+To find the switching losses using thermal superposition the total power dissipation of the device is measured. By first calibrating the thermal resistance of the heatsink, \(R_\theta\), with a known DC power dissipation the circuit can be run under normal conditions until a steady state is reached. This change in temperature can then be used to calculate the total power dissipation of the device shown in Equation~\ref{eq:total_power_dissipation}.
+\begin{equation}
+    P_{\mathrm{total}} = \frac{T_{\mathrm{device}} - T_{\mathrm{ambient}}}{R_\theta}
+    \label{eq:total_power_dissipation}
+\end{equation}
+
+To further find the switching losses, the conduciton losses are needed to be calculated. Within this case, the conduction losses within the IGBT and diode can be described by \ref{igbt_conduciton_loss} and \ref{diode_conduction_loss} respectively considering that they are the components within a buck converter. The conduction losses are calculated using the current through the device, \(i\), and the relevant parameters for the IGBT and diode, \(R_{\mathrm{on}}\) and \(V_{\mathrm{D0}}\) for the IGBT and \(R_{\mathrm{D}}\) and \(V_{\mathrm{ce0}}\) for the diode.
+
+\begin{equation}
+    P_{\mathrm{con, IGBT}} = i^2 \cdot R_{\mathrm{on}} + i \cdot V_{\mathrm{ce0}}
+    \label{igbt_conduciton_loss}
+\end{equation}
+
+\begin{equation}
+    P_{\mathrm{con, DIODE}} = i^2 R_{\mathrm{D}} + i \cdot V_{\mathrm{D0}}
+    \label{diode_conduction_loss}
+\end{equation}
+
+Finally to extract the switching losses, the conduction losses are subtracted from the total power dissipation as shown in Equation~\ref{eq:switching_loss}.
+\begin{equation}
+    P_{\mathrm{switching}} = P_{\mathrm{total}} - (P_{\mathrm{con, IGBT}} + P_{\mathrm{con, DIODE}}) 
+    \label{eq:switching_loss}
+\end{equation}
+
+The advantages of this method are that it is a relatively simple process that can be executed with basic equipment such as a power supply, temperature sensors and a heatsink. For its simplicity, it can be a cost-effective method for finding switching losses, when the correct conditions are met. In addition to this, this type of testing can be performed on the actual converter in the operating context unlike the double-pulse testing method. The disadvantages of this method are that it relies heavily on the accuracy of the temperature measurements, which can be affected by various factors such as ambient conditions and sensor placement. Additionally, it assumes that the thermal resistance of the heatsink remains constant, which may not always be the case. Another drawback for the system is that it may not be suitable for devices you are looking to test under a transient state, as the method relies on reaching a steady state for accurate measurements. Further, the testing time for each device can be quite long as the system needs to reach a steady state for accurate measurements, which may not be ideal for testing multiple devices or for devices that have a long thermal time constant.
+
+However, this method results in a general swtiching loss for the device under the given operating condition rather than the turn-on and turn-off characteristics respectively, which may be required for a more detailed analysis of the device's performance. However this does not apply to the next method.
+
+Double-pulse testing is another methode used to determine the switching losses of a power semiconductor device. This method involves applying two consecutive pulses to the device under test, with the first pulse used to charge the device and the second pulse used to measure the switching losses. Shown in Figure~\ref{fig:double_pulse_test} is a typical double-pulse test waveform.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{./Images/Double-Pulse_testing_input.png}
+    \caption{Typical Double-Pulse Test Waveform~\cite{key}}
+    \label{fig:double_pulse_test}
+\end{figure}
 \chapter{Question 2}
 \section{Context}
 \section{2a}
