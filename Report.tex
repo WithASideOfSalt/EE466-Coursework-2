@@ -420,7 +420,7 @@ To calculate the duty factor for the forward converter, the voltage transfer fun
 
 Plugging in the relevant values into the equation, the duty factor can be calculated as shown in Equation~\ref{eq:duty_factor_calculation}.
 \begin{equation}
-    D = \frac{V_{\mathrm{out}}}{V_{\mathrm{in}}} \cdot \frac{N_1}{N_2} = \frac{14}{48} \cdot \frac{32}{28} \approx 0.36
+    D = \frac{V_{\mathrm{out}}}{V_{\mathrm{in}}} \cdot \frac{N_1}{N_2} = \frac{14}{48} \cdot \frac{32}{26} \approx 0.36
     \label{eq:duty_factor_calculation}
 \end{equation}
 \vspace{0.5cm}
@@ -504,12 +504,48 @@ This result can then be used to calculate the peak magnetizing current similarly
     \label{eq:peak_magnetizing_current}
 \end{equation}
 \section{3b}
-This question looks at the control of a high-side MOSFET within a dual-switch forward converter configuration and how it is possible to use a bootstrap and high-voltage level-shifting MOSFET circuit to drive the high-side MOSFET, \cite{BootstrapCircuit}.
+This question looks at the control of a high-side MOSFET within a dual-switch forward converter configuration and how it is possible to use a bootstrap and high-voltage level-shifting MOSFET circuit to drive the high-side MOSFET, \cite{BootstrapCircuit}. The reason for this is that the source of the high-side MOSFET does not have a reference point to ground, which makes it difficult to drive the gate of the MOSFET.
 
 A bootstrap circuit is a common method used to drive the high-side MOSFET in a dual-switch forward converter. It commonly consists of a bootstrap capacitor, diode and a resistor. Additions can be made to this circuit such as a high-voltage level-shifting MOSFET. The operation of the bootstrap circuit can be explained in two phases, the charging phase and the discharging phase.
 
+The charging phase occurs when the low-side MOSFET is turned on, pulling the source of the high-side MOSFET to ground. During this time, the bootstrap capacitor is charged through the diode from the supply voltage. The voltage across the bootstrap capacitor will be equal to the supply voltage.
+
+When switching to the discharging phase, the low-side MOSFET is turned off and the high-side MOSFET is turned on. During this time, the source of the high-side MOSFET is pulled up to the supply voltage, which allows the bootstrap capacitor to provide the necessary gate drive voltage to keep the high-side MOSFET on. The voltage across the bootstrap capacitor will decrease as it discharges through the gate of the high-side MOSFET.
+
+Additionally to the bootstrap circuit, a high-voltage level-shifting MOSFET can be used to drive the gate of the high-side MOSFET. This level-shifting MOSFET is used to shift the low-voltage signal from the IC to be able to still control the high-side MOSFET. Depending on the logic required by the gate driver impacts how the level-shifting MOSFET is used, for example, if the gate driver requires a high signal to turn on the high-side MOSFET, the level-shifting MOSFET can be used to pull the input of the gate driver high to have the correct output to drive the high-side MOSFET. The inverse is also true. If the driver needs a low signal to activate the gate then the level-shifting MOSFET can pull it low instead.
+
+Shown below in Figure~\ref{fig:bootstrap_circuit} is an example block diagram showing how the bootstrap circuit and level-shifting MOSFET can be used together to drive the high-side MOSFET in a dual-switch forward converter configuration where the gate driver is modelled after the IR2117 with an active low input.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = 0.6\textwidth]{./Images/Q3b.png}
+    \caption{Block diagram of bootstrap circuit and level-shifting MOSFET}
+    \label{fig:bootstrap_circuit}
+\end{figure}
 
 \section{3c}
+This question looks at redesigning the circuit of the dual-switch forward converter to contain a synchronous rectifier instead of a diode. A synchronous rectifier is a MOSFET that is used in place of a diode to improve the efficiency of the converter by reducing the voltage drop across the rectifying element. This is particularly beneficial in low-voltage, high-current applications where the forward voltage drop of a diode can lead to significant power losses,~\cite{synchronousRectification}.
+
+Shown below in Figure~\ref{fig:synchronous_rectifier} is the redesigned circuit of the dual-switch forward converter with a synchronous rectifier, where the diodes have been replaced by MOSFETs and a gate controller.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{./Images/Q3c.png}
+    \caption{Redesigned Dual-Switch Forward Converter with Synchronous Rectifier}
+    \label{fig:synchronous_rectifier}
+\end{figure}
+
+This configuration reduces the conduction losses in the rectifying element, as the MOSFET can have a much lower on-resistance compared to the forward voltage drop of a diode. This matters a lot when the output voltage is low and the current is high, as the power loss in the diode can be significant.
+
+The circuit operates similarly to the original dual-switch forward converter, with the main difference being that the synchronous rectifier MOSFETs are controlled by a gate driver that ensures they turn on and off at the appropriate times to mimic the behavior of the diodes they replace. To prevent the sudden onrush of current, shoot through, if both devices end up on at the same time, the gate driver is designed to have dead time between the switching of the two MOSFETs. Conduction can still occur during the dead time due to the body diode of the MOSFETs.
+
+Shown below in Figure~\ref{fig:synchronous_rectifier_waveforms} is a rough sketch of the waveforms for the synchronous rectifier MOSFETs.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{./Images/Q3c_waveform.jpg}
+    \caption{Example waveforms for synchronous rectifier MOSFETs}
+    \label{fig:synchronous_rectifier_waveforms}
+\end{figure}
 
 \printbibliography
 \end{document}
