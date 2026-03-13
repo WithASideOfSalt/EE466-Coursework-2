@@ -28,8 +28,17 @@
         "pdflatex",
         "pdflatex"
       ]
+    },
+    {
+      "name": "biber",
+      "tools": [
+        "biber"
+      ]
     }
   ],
-  "latex-workshop.latex.recipe.default": "lastUsed"
+  "latex-workshop.latex.recipe.default": "lastUsed",
+  "cSpell.words": [
+    "behaviours"
+  ]
   // ...existing code...
 }
